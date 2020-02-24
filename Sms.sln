@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sms_cli", "ConsoleApp1\sms_cli.csproj", "{31F720F3-D6FC-44DF-9AA4-9B3F6EC3BF03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS_Gate", "SMS_Gate\SMS_Gate.csproj", "{B167BDBA-29D4-479D-9736-7C52CC1D18C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{31F720F3-D6FC-44DF-9AA4-9B3F6EC3BF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31F720F3-D6FC-44DF-9AA4-9B3F6EC3BF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31F720F3-D6FC-44DF-9AA4-9B3F6EC3BF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B167BDBA-29D4-479D-9736-7C52CC1D18C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B167BDBA-29D4-479D-9736-7C52CC1D18C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B167BDBA-29D4-479D-9736-7C52CC1D18C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B167BDBA-29D4-479D-9736-7C52CC1D18C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
