@@ -16,7 +16,6 @@ namespace SMS_Gate.Migrations
                     phone_num = table.Column<string>(nullable: false),
                     text = table.Column<string>(nullable: true),
                     status = table.Column<int>(nullable: false),
-                    fail_count = table.Column<int>(nullable: false),
                     created = table.Column<DateTime>(nullable: false),
                     sended = table.Column<DateTime>(nullable: false)
                 },

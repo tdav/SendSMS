@@ -25,7 +25,7 @@ namespace SMS_Gate
 
             using (var db = new MyContext())
             {
-                var list = db.Clients.Where(x => x.status == 0 && x.fail_count <= 3).ToList();
+                var list = db.Clients.Where(x => x.status == 0).ToList();
 
                 if (list == null || list.Count == 0) return;
 
@@ -35,22 +35,28 @@ namespace SMS_Gate
                 try
                 {
                     modem.ReceiveTimeount = 1000;
-                    modem.ConnectAsync().GetAwaiter().GetResult();
+                    var isOpen = modem.ConnectAsync().GetAwaiter().GetResult();
+                    if (isOpen == false) return;
+                    var sig = modem.SignalStrength;
+                    logger.LogInformation($"Signal ==> {sig}");
+
+                    if (sig == -1)
+                    {
+                        logger.LogError($"No signal");
+                        return;
+                    }
+
 
                     foreach (var it in list)
                     {
                         var res = modem.SendSmsAsync(it.phone_num, it.text).GetAwaiter().GetResult();
 
+                        // successfully sent a command to the modem
                         if (!res)
                         {
                             logger.LogInformation($"Sended => {it.phone_num}");
-
                             it.status = 1;
-                        }
-                        else
-                        {
-                            logger.LogError($"Send fail => {it.phone_num}");
-                            it.fail_count++;
+                            it.sended = DateTime.Now;
                         }
 
                         db.SaveChanges();

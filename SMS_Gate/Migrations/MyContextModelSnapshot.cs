@@ -25,9 +25,6 @@ namespace SMS_Gate.Migrations
                     b.Property<DateTime>("created")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("fail_count")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("phone_num")
                         .IsRequired()
                         .HasColumnType("TEXT");

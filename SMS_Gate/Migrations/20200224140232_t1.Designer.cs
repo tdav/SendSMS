@@ -9,7 +9,7 @@ using SMS_Gate.Model;
 namespace SMS_Gate.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200224123044_t1")]
+    [Migration("20200224140232_t1")]
     partial class t1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +26,6 @@ namespace SMS_Gate.Migrations
 
                     b.Property<DateTime>("created")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("fail_count")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("phone_num")
                         .IsRequired()
