@@ -20,6 +20,7 @@ namespace SMS_Gate
          
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCompression();
             services.AddHostedService<WorkerService>();
 
             services.AddControllers()
@@ -51,6 +52,7 @@ namespace SMS_Gate
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
