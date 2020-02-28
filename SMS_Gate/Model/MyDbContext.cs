@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace SMS_Gate.Model
 {
-    public class MyContext : DbContext
+    public class MyDbContext : DbContext
     {
         public DbSet<Client> Clients { get; set; }
 
-        public MyContext() { }
-        public MyContext(DbContextOptions<MyContext> options) : base(options) { }
+        public MyDbContext() { }
+        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite("Data Source=DataBase.db");

@@ -11,31 +11,36 @@ namespace SMS_Gate
 
         private readonly ILogger<SmsSender> logger;
         private readonly IConfiguration config;
-
+        private DevInfo devInfo;
 
         public SmsSender(ILogger<SmsSender> _logger, IConfiguration _config)
         {
             logger = _logger;
             config = _config;
         }
+         
 
+        public DevInfo Info()
+        {
+            return devInfo; 
+        }
 
         public void Run()
         {
 
-            using (var db = new MyContext())
+            using (var db = new MyDbContext())
             {
                 var list = db.Clients.Where(x => x.status == 0).ToList();
-
-                if (list == null || list.Count == 0) return;
+                if (list.Count == 0) return;
 
                 string ComPort = config.GetSection("AppSettings:ComPort").Value;
-
                 var modem = new GsmModem.GsmModem(ComPort);
+
                 try
                 {
+
                     modem.ReceiveTimeount = 1000;
-                    var isOpen = modem.ConnectAsync().GetAwaiter().GetResult();
+                    var isOpen = modem.Connect();
                     if (isOpen == false) return;
                     var sig = modem.SignalStrength;
                     logger.LogInformation($"Signal ==> {sig}");
@@ -47,9 +52,18 @@ namespace SMS_Gate
                     }
 
 
+                    if (devInfo == null)
+                    {
+                        devInfo = new DevInfo()
+                        {
+                            SignalStrength = modem.SignalStrength,
+                            Comands = modem.SupportedCommands.ToList()
+                        };
+                    }
+
                     foreach (var it in list)
                     {
-                        var res = modem.SendSmsAsync(it.phone_num, it.text).GetAwaiter().GetResult();
+                        var res = modem.SendSms(it.phone_num, it.text);
 
                         // successfully sent a command to the modem
                         if (!res)
@@ -71,7 +85,7 @@ namespace SMS_Gate
                 }
                 finally
                 {
-                    modem.Close();
+                    modem?.Close();
                 }
             }
         }

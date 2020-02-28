@@ -15,6 +15,7 @@ namespace SMS_Gate
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("https://*:48081", "http://*:48080");
                     webBuilder.UseStartup<Startup>();
                 });
     }

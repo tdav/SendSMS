@@ -5,8 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GsmModemNetCore" Version="0.1.0" />
+  <ItemGroup>    
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
   </ItemGroup>
 

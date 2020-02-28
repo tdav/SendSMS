@@ -27,9 +27,11 @@ namespace SMS_Gate
                 .AddNewtonsoftJson()
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-            services.AddDbContext<MyContext>(options => 
+            services
+                .AddEntityFrameworkSqlite()
+                .AddDbContext<MyDbContext>(options => 
                                                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
-                                                ass => ass.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));
+                                                ass => ass.MigrationsAssembly(typeof(MyDbContext).Assembly.FullName)));
 
             services.AddSwaggerGen(c =>
             {
@@ -55,8 +57,8 @@ namespace SMS_Gate
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseHsts();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

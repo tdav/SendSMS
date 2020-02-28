@@ -13,12 +13,14 @@ namespace SMS_Gate.Controllers
     [Route("[controller]")]
     public class SmsController : ControllerBase
     {
-        private readonly MyContext db;
+        private readonly ISender sms;
+        private readonly MyDbContext db;
         private readonly ILogger<SmsController> logger;
 
-        public SmsController(ILogger<SmsController> _logger, MyContext _db)
+        public SmsController(ILogger<SmsController> _logger, MyDbContext _db, ISender sender)
         {
             db = _db;
+            sms = sender;
             logger = _logger;
         }
 
@@ -30,6 +32,21 @@ namespace SMS_Gate.Controllers
 
                 var ls = await db.Clients.OrderByDescending(x => x.id).Take(100).ToListAsync();
                 return Ok(ls);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        
+        [HttpGet("info")]
+        public IActionResult GetInfo()
+        {
+            try
+            {
+                var res = sms.Info();
+                return Ok(res);
 
             }
             catch (Exception)
