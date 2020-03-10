@@ -46,9 +46,7 @@ namespace SMS_Gate
                     // _timer?.Change(Timeout.Infinite, 0);
 
                     sms.Run();
-                   
-
-                    Console.WriteLine($"Date {DateTime.Now}");
+                                       
                     logger.LogInformation("Timed Background Service is working.");
 
                    // _timer?.Change(Timeout.Infinite, 1);

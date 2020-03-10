@@ -60,6 +60,7 @@ namespace SMS_Gate.Controllers
         {
             try
             {
+                
                 await db.Clients.AddAsync(
                     new Client
                     {

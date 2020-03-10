@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost:50000/",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:51754",
       "sslPort": 44336
@@ -29,6 +33,11 @@
     "Azure Dev Spaces": {
       "commandName": "AzureDevSpaces",
       "launchBrowser": true
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "swagger"
     }
   }
 }

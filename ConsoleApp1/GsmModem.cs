@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RssSata.Utils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Ports;
@@ -50,12 +51,23 @@ namespace GsmModem
             try
             {
                 this._serialPort.Open();
-                return this.WriteCommand("ATZ") && this.WriteCommand("AT+CSCA=\"+998901850488\", 145");
+                var res = this.WriteCommand("ATZ");// && 
+                                                   //this.WriteCommand("AT+CSCA=\"+998901850488\", 145");
+                                                   //this.WriteCommand("AT+CSMS=1");
+                return res;
 
             }
-            catch (Exception ex)
+            catch (Exception ee)
             {
-                Console.WriteLine(ex.Message);
+                var li = new LogItem
+                {
+                    App = "3G MODEM",
+                    Stacktrace = ee.GetStackTrace(5),
+                    Message = ee.GetAllMessages(),
+                    Method = "Connect"
+                };
+                CLogJson.Write(li);
+
                 return false;
             }
         }
@@ -110,8 +122,6 @@ namespace GsmModem
                     {
                         string str = this._serialPort.ReadExisting();
 
-                        Console.WriteLine(str);
-
                         empty += str;
                         if (!empty.EndsWith("\r\nOK\r\n"))
                         {
@@ -129,9 +139,28 @@ namespace GsmModem
                     }
                 }
                 while (!empty.EndsWith("\r\nERROR\r\n"));
+
+
+                var li = new LogItem
+                {
+                    App = "3G MODEM",
+                    Mestype = "i",
+                    Method = "WriteCommand",
+                    Params = $"SEND CMD ==> {command};  RECIVE <== {empty.Replace("\r", "").Replace("\n", " ")}"
+                };
+                CLogJson.Write(li);
             }
-            catch (Exception ex)
+            catch (Exception ee)
             {
+                var li = new LogItem
+                {
+                    App = "3G MODEM ERROR",
+                    Stacktrace = ee.GetStackTrace(5),
+                    Message = ee.GetAllMessages(),
+                    Method = "WriteCommand"
+                };
+                CLogJson.Write(li);
+
                 receivedData = string.Empty;
                 return false;
             }
@@ -144,8 +173,6 @@ namespace GsmModem
         {
             if (e.EventType != SerialData.Chars)
                 return;
-
-
 
             this._receiveAutoResetEvent.Set();
         }
@@ -171,7 +198,7 @@ namespace GsmModem
                 string[] strArray = receivedData.Split(',', StringSplitOptions.None);
                 List<string> list = (strArray.Length == 1 ? (IEnumerable<string>)receivedData.Split("\r\n", StringSplitOptions.None) : (IEnumerable<string>)strArray).ToList<string>();
                 list.RemoveAll((Predicate<string>)(t => t.Equals(string.Empty)));
-                return (IEnumerable<string>)list;
+                return list;
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO.Ports;
@@ -50,12 +51,16 @@ namespace GsmModem
             try
             {
                 this._serialPort.Open();
-                return this.WriteCommand("ATZ") && this.WriteCommand("AT+CSCA=\"+998901850488\", 145");
+                   var res = this.WriteCommand("ATZ") && 
+                                // TODO check
+                             this.WriteCommand("AT+CSCA=\"+998901850488\", 145");
+                             this.WriteCommand("AT+CSMS=1");
+                return res;
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+               // Logger.LogInformation($"3G MODEM => {ex.Message}");
                 return false;
             }
         }
@@ -110,7 +115,7 @@ namespace GsmModem
                     {
                         string str = this._serialPort.ReadExisting();
 
-                        Console.WriteLine($"3G MODEM => {str}");
+                        //Logger.LogInformation($"3G MODEM => {str}");
 
                         empty += str;
                         if (!empty.EndsWith("\r\nOK\r\n"))
@@ -130,7 +135,7 @@ namespace GsmModem
                 }
                 while (!empty.EndsWith("\r\nERROR\r\n"));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 receivedData = string.Empty;
                 return false;
@@ -144,9 +149,7 @@ namespace GsmModem
         {
             if (e.EventType != SerialData.Chars)
                 return;
-
-
-
+                       
             this._receiveAutoResetEvent.Set();
         }
 

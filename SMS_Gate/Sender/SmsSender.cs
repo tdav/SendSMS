@@ -65,7 +65,6 @@ namespace SMS_Gate
                     {
                         var res = modem.SendSms(it.phone_num, it.text);
 
-                        // successfully sent a command to the modem
                         if (!res)
                         {
                             logger.LogInformation($"Sended => {it.phone_num}");
