@@ -1,5 +1,7 @@
 dotnet dev-certs https -ep "localhost.pfx" -p 1234 --trust
 
+dotnet dev-certs https -ep "self_sing.pfx" -p 1234 --trust
+
 
 :: Create a Windows Service
 sc create DemoService DisplayName="Demo Service" binPath="C:\full\path\to\Demo.exe"

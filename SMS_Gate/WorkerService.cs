@@ -42,12 +42,12 @@ namespace SMS_Gate
                 try
                 {
                     Interlocked.Increment(ref State.numberOfActiveJobs);
-                    logger.LogInformation("Timed Background Service is stopping.");
+                    //logger.LogInformation("Timed Background Service is stopping.");
                     // _timer?.Change(Timeout.Infinite, 0);
 
                     sms.Run();
                                        
-                    logger.LogInformation("Timed Background Service is working.");
+                    //logger.LogInformation("Timed Background Service is working.");
 
                    // _timer?.Change(Timeout.Infinite, 1);
                 }
